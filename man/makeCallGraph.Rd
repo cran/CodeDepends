@@ -2,6 +2,7 @@
 \alias{makeCallGraph}
 \alias{makeCallGraph,list-method}
 \alias{makeCallGraph,character-method}
+\alias{makeCallGraph,function-method}
 \title{Create a graph representing which functions call other functions}
 \description{
   This function and its methods provide facilities for constructing
@@ -11,8 +12,10 @@
 makeCallGraph(obj, all = FALSE, ...)
 }
 \arguments{
-  \item{obj}{The name of a package, optionally prefixed with
-    \code{"package:"}. Other inputs may be supported in the future}
+  \item{obj}{The name of one or more packages as a string, optionally prefixed with
+    \code{"package:"}. This can be a vector of package names.
+    Currently the packages should already be on the search path.
+    Other inputs may be supported in the future}
    \item{all}{a logical value that controls whether the graph includes
      all the functions called by any of the target functions. This will
      greatly expand the graph.}
@@ -45,6 +48,10 @@ makeCallGraph(obj, all = FALSE, ...)
     graph.par(list(nodes = list(fontsize = 48)))
     renderGraph(zz)
   }
+
+    # Two packages
+    library(codetools)
+    gg = makeCallGraph(c("package:CodeDepends", "package:codetools"))
 }
 \keyword{hplot}
 \keyword{programming}

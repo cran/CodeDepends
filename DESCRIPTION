@@ -1,5 +1,5 @@
 Package: CodeDepends
-Version: 0.5-3
+Version: 0.6.0
 Title: Analysis of R Code for Reproducible Research and Code
         Comprehension
 Description: Tools for analyzing R expressions
@@ -11,9 +11,11 @@ Description: Tools for analyzing R expressions
 Author: Duncan Temple Lang, Roger Peng, Deborah Nolan, Gabriel Becker
 Maintainer: Gabriel Becker <becker.gabriel@gene.com>
 License: GPL
+URL: https://github.com/duncantl/CodeDepends
+BugReports: https://github.com/duncantl/CodeDepends/issues
 Depends: methods
-Imports: codetools, XML, utils
-Suggests: graph, Rgraphviz, RUnit, knitr, highlight, RJSONIO, RCurl
+Imports: codetools, graph, XML, utils
+Suggests: Rgraphviz, RUnit, knitr, highlight, RJSONIO, RCurl, Rcpp
 VignetteBuilder: knitr
 Collate: classes.R librarySymbols.R functionHandlers.R codeDepends.R
         sectionDepends.R sweave.R xml.R jss.R frags.R codeTypes.R gc.R
@@ -21,6 +23,6 @@ Collate: classes.R librarySymbols.R functionHandlers.R codeDepends.R
         isOutput.R refScript.R sideEffects.R highlightCode.R
         freeVariables.R convenienceFuns.R
 NeedsCompilation: no
-Packaged: 2017-05-28 22:51:37 UTC; beckerg4
+Packaged: 2018-06-22 19:52:19 UTC; beckerg4
 Repository: CRAN
-Date/Publication: 2017-05-29 05:21:02 UTC
+Date/Publication: 2018-06-22 21:05:21 UTC

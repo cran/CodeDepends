@@ -15,6 +15,8 @@ isFile =
 function(val, basedir = ".")
   file.exists(val) || file.exists(paste(basedir, val, sep = .Platform$file.sep))  
 
+is.native = function(x) inherits(x, "NativeSymbol")
+
 #########################################################################################
 
 BuiltinFunctions =
@@ -49,7 +51,13 @@ function(..., functionHandlers = list(...), inclPrevOutput = FALSE, checkLibrary
     sideEffects = character()
     nsevalVars = character()
     code = NULL
-    
+    ## this one doesn't get blown away by reset, "libraries" still does 
+    ## we need this to handle dplyr, etc based code in a script, because
+    ## the script getInput methods lapplys getInputs with reset=TRUE, so
+    ## we lose package info outside of the individual expression.
+    ##
+    ## FIXME we need a better solution to design mismatch generally, I think . ~G
+    allpackages = libraries
     
     Set = function(name) {
             set <<- c(set, name)
@@ -64,8 +72,7 @@ function(..., functionHandlers = list(...), inclPrevOutput = FALSE, checkLibrary
                 vars <<- c(vars, name[ !( name %in% c(BuiltinFunctions, libSymbols) ) ] ) #BuiltinFunctions ) ])  # || name %in% set
             else
                 ##Variables can't be an input if they are already an output ~GB
-                vars <<- c(vars, name[ !( name %in% c(BuiltinFunctions, set, libSymbols) ) ] ) #BuiltinFunctions  || name %in% set )])  # || name %in% set
-            
+                vars <<- c(vars, name[ !( name %in% c(BuiltinFunctions, set, libSymbols) ) ] )             
         }
         else
             Set(name)
@@ -95,6 +102,7 @@ function(..., functionHandlers = list(...), inclPrevOutput = FALSE, checkLibrary
            libraries <<- c(libraries, name)
            if(checkLibrarySymbols)
                libSymbols <<- c(libSymbols, librarySymbols(name))
+           allpackages <<- libraries
        },
        addInfo = function(funcNames = character(), modelVars = character()) {
            nsevalVars <<- c(nsevalVars,  modelVars)
@@ -126,6 +134,7 @@ function(..., functionHandlers = list(...), inclPrevOutput = FALSE, checkLibrary
        reset = reset,
        code = function(name) code <<- name,
        nsevals = function(name) nsevalVars <<- c(nsevalVars, name),
+       pkgLoadHistory = function() allpackages, 
 #       addInfo = addInfo,
        results = function(resetState = FALSE) {
                       funcs = unique(functions)
@@ -164,12 +173,15 @@ function(x)
 
 
 setGeneric("getInputs",
-           function(e, collector = inputCollector(), basedir = ".", reset = FALSE, formulaInputs = FALSE, ...) {
-             standardGeneric("getInputs")
-           })
+           function(e, collector = inputCollector(), basedir = ".",
+                    reset = FALSE, formulaInputs = FALSE, ...) {
+    standardGeneric("getInputs")
+})
 
 getInputs.language =          
-function(e, collector = inputCollector(), basedir = ".", reset = FALSE, formulaInputs = FALSE, input = TRUE,  ...,  pipe = FALSE, update = FALSE, nseval=FALSE)
+    function(e, collector = inputCollector(), basedir = ".",
+             reset = FALSE, formulaInputs = FALSE, input = TRUE,  ...,
+             pipe = FALSE, update = FALSE, nseval=FALSE)
 {
     ## scoping state hackery
     if(is.null(dynGet("getinputstoplevel", ifnotfound = NULL))) {
@@ -258,13 +270,20 @@ function(e, collector = inputCollector(), basedir = ".", reset = FALSE, formulaI
      lapply(e, getInputs, collector = collector, basedir = basedir, input = input,
             formulaInputs = formulaInputs, ..., update = update, pipe = pipe,
             nseval = nseval)
+   } else if(is.native(e)) {
+       collector$functionHandlers[["_InlineNativeSymbol_"]](e, collector,
+           input = input, basedir = basedir,
+           formulaInputs = formulaInputs,
+           update = update, pipe = pipe,
+           nseval = nseval) 
+       
    } else {
 
      stop("don't know about ", class(e))
 
    }
   
- collector$results(reset = reset)
+ collector$results(resetState = reset)
 }
 
 #setMethod("getInputs", "expression", getInputs.language)
@@ -319,14 +338,23 @@ function(e, collector = inputCollector(), basedir = ".", reset = FALSE, formulaI
 
 setMethod("getInputs", "function",
             function(e, collector = inputCollector(), basedir = ".", reset = FALSE, formulaInputs = FALSE, ...) {
-              expr = body(e)
-              if(as.character(expr[[1]]) == "{")
-                 expr = expr[-1]
-              vars = new("ScriptNodeInfo", outputs = names(formals(e))) #??? outputs - shouldn't this be inputs?
-              scr = readScript(txt = as.list(body(e)))
-              new("ScriptInfo", c(vars, getInputs(scr, collector = collector, basedir = basedir, reset = reset, formulaInputs = formulaInputs, ...)))
-              
-            })
+           
+    ## create dummy node which declares the formal arguments so they
+    ## don't show up as globals later. the call itself "outputs" these
+    ## "variables"
+    vars = new("ScriptNodeInfo", outputs = names(formals(e)))
+    exprs = as.list(body(e))
+    ## do we really want to keep the "{" around? Currently a test fails
+    ## if we remove it (length of output) but the test could be changed...
+    if(is.name(exprs[[1]]) && as.character(exprs[[1]]) == "{") {
+        scr = readScript(txt = exprs)
+    } else {
+        scr = body(e)
+    }
+
+    new("ScriptInfo", c(vars, getInputs(scr, collector = collector, basedir = basedir, reset = reset, formulaInputs = formulaInputs, ...)))
+    
+})
 
 
 
