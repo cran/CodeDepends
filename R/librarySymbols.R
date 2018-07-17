@@ -5,6 +5,7 @@ librarySymbols = function(nm, ..., verbose=FALSE, attach=FALSE)
     {
         deps = getDeps(nm, found = corePkgs , verbose = verbose)
         libs = c(nm, deps)
+        libs = gsub("([[:space:]]|\\n)+", "", libs)
         #we load but DON'T attach the library and all its dependencies to resolve its symbols
         allsyms = unlist(lapply(libs, function(x)
             {
@@ -13,10 +14,20 @@ librarySymbols = function(nm, ..., verbose=FALSE, attach=FALSE)
                 names(ret) = rep(x, times = length(ret))
                 ret
             }))
+        allsyms
     }
+
+
+stripVrDeps = function(txt) {
+    
+    txt = gsub("[[:space:]]\\(.*", "", txt)
+    gsub("[^[:alnum:]_.]", "", txt)
+}
+
 
 getDeps = function(name, verbose=FALSE, found = character())
     {
+     
         deps = character()
         if(length(name) > 1)
             {
@@ -35,7 +46,7 @@ getDeps = function(name, verbose=FALSE, found = character())
         if(length(grep("R .*", name)))
             {
                 if(verbose)
-                    print(sprintf("skipping R version dependency: %s", name))
+                    message(sprintf("skipping R version dependency: %s", name))
                 return(character())
             }
         cd = sprintf("library(help='%s')", name)
@@ -45,7 +56,10 @@ getDeps = function(name, verbose=FALSE, found = character())
             return(character())
         depline = pinfo[grepl("^Depends:", pinfo)]
         deps = unlist(strsplit(gsub("^Depends:[^[:alpha:]]*", "", depline), split = "\\s*,\\s*"))
-        deps = deps[!grepl("R .*", deps) & ! (deps %in% found) ]
+        deps = deps[!grepl("R .*", deps)]
+        deps = stripVrDeps(deps)
+        deps = deps[! (deps %in% found) ]
+      
         newdeps = getDeps(deps, verbose=verbose, found = c(deps, found))
         while(length(newdeps))
             {

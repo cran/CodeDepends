@@ -1,5 +1,5 @@
 Package: CodeDepends
-Version: 0.6.0
+Version: 0.6.5
 Title: Analysis of R Code for Reproducible Research and Code
         Comprehension
 Description: Tools for analyzing R expressions
@@ -23,6 +23,6 @@ Collate: classes.R librarySymbols.R functionHandlers.R codeDepends.R
         isOutput.R refScript.R sideEffects.R highlightCode.R
         freeVariables.R convenienceFuns.R
 NeedsCompilation: no
-Packaged: 2018-06-22 19:52:19 UTC; beckerg4
+Packaged: 2018-07-17 20:24:43 UTC; beckerg4
 Repository: CRAN
-Date/Publication: 2018-06-22 21:05:21 UTC
+Date/Publication: 2018-07-17 21:10:03 UTC
