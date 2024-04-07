@@ -36,12 +36,13 @@ Duncan Temple Lang
  \code{\link{readScript}}
 }
 \examples{
-cat("x = 1:10\ny = 3*x + 7 + rnorm(length(x))\n",  file = "foo.R")
-sc = updatingScript("foo.R")
+fil <- file.path(tempdir(), "foo.R")
+cat("x = 1:10\ny = 3*x + 7 + rnorm(length(x))\n",  file = fil)
+sc = updatingScript(fil)
 
 as(sc, "Script")
 
-con = file("foo.R", "at")
+con = file(fil, "at")
 cat("z = x + y", file = con)
 close(con)
 

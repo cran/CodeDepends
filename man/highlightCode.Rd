@@ -63,7 +63,8 @@ Duncan Temple Lang
 \examples{
 f = system.file("samples", "sitepairs.R", package = "CodeDepends")
 ## url checking takes a while, too long for CRAN example
-highlightCode(f, "foo.html", checkURLs=FALSE)
+fout <- file.path(tempdir(), "foo.html")
+highlightCode(f, fout, checkURLs=FALSE)
 }
 \keyword{programming}
 

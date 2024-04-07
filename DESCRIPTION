@@ -1,5 +1,5 @@
 Package: CodeDepends
-Version: 0.6.5
+Version: 0.6.6
 Title: Analysis of R Code for Reproducible Research and Code
         Comprehension
 Description: Tools for analyzing R expressions
@@ -9,7 +9,7 @@ Description: Tools for analyzing R expressions
   view of code, determining dependencies between variables,  code improvement
   suggestions.
 Author: Duncan Temple Lang, Roger Peng, Deborah Nolan, Gabriel Becker
-Maintainer: Gabriel Becker <becker.gabriel@gene.com>
+Maintainer: Gabriel Becker <gabembecker@gmail.com>
 License: GPL
 URL: https://github.com/duncantl/CodeDepends
 BugReports: https://github.com/duncantl/CodeDepends/issues
@@ -23,6 +23,6 @@ Collate: classes.R librarySymbols.R functionHandlers.R codeDepends.R
         isOutput.R refScript.R sideEffects.R highlightCode.R
         freeVariables.R convenienceFuns.R
 NeedsCompilation: no
-Packaged: 2018-07-17 20:24:43 UTC; beckerg4
+Packaged: 2024-04-07 21:08:18 UTC; gbecker
 Repository: CRAN
-Date/Publication: 2018-07-17 21:10:03 UTC
+Date/Publication: 2024-04-07 23:03:14 UTC

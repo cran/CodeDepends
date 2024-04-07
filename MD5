@@ -1,5 +1,5 @@
 c113bfe527ae8facd85a5381e125825d *Changes
-1972c305740c47c08b97ff9308097a35 *DESCRIPTION
+79a41f97e2dad296d9582150c143e87a *DESCRIPTION
 6938ed86133c7ea5ad90080cab73a1dd *NAMESPACE
 18393d7caae9d2f19b7aec2f0fa1a155 *NEWS
 a70f0f3822dfef57280824327bc68951 *R/callGraph.R
@@ -8,10 +8,10 @@ a6190fcbdc7139698134bba56cde43e1 *R/codeDepends.R
 039dc853774071d69719d82f159b9971 *R/codeTypes.R
 f357e7af59fe7e241c2bae5c5fb37926 *R/convenienceFuns.R
 08118679c70e1a655ba96737bbfd46c8 *R/deps.R
-2df0a497cc6ef893ab7cd93a1dd43790 *R/frags.R
+f8497c932afee1c20970d3ba4cdb7a67 *R/frags.R
 550989bf7007d1f79c7db7d4a5b598f5 *R/freeVariables.R
-c44f7ac88aadb31e7e0535f763574c2f *R/functionHandlers.R
-5f790241c911c5873169b1bdae4e91a4 *R/gc.R
+6eef29a00c86b03688db02c1e6e6fe56 *R/functionHandlers.R
+438c88b1d2645402c9077a36c2052050 *R/gc.R
 b1e17c9cd78c43861bdd1b1d1a1890f7 *R/graph.R
 55be887ef1f2ce47bb99e12637dc38b9 *R/highlightCode.R
 52c36532f095519f777b934e6a596adc *R/isOutput.R
@@ -25,7 +25,7 @@ ad7543b9f12e36d7b4e1dc73c0cfaa62 *R/jss.R
 c059d18fa9e6730f0359915902fa65c0 *R/sideEffects.R
 1f33f28b3242dcb5c2e1e1003b4fe146 *R/sweave.R
 d4432269dc42091ecb52d49d7aa956af *R/xml.R
-518646c28cd8bec1b52387fe89c3b16f *build/vignette.rds
+86507b8a1a076beb38a23ec9311df730 *build/vignette.rds
 fe7223fbbd2e97582a80375a9e650e8d *inst/CSS/highlight.css
 41a99962a0ff55905216c6e4a2020ca7 *inst/JavaScript/highlightSymbols.js
 bb80b08647991ffe8323217baa27a754 *inst/Vocabulary
@@ -38,9 +38,9 @@ fcc364cef28c0697fc8adac2959cb13a *inst/design/isim.R
 37b52e9cd60f39784bda8f89f78737b9 *inst/design/resultsMultiTimeline.pdf
 bd58c22afde0b157d89cfc4634160d04 *inst/design/taskGraph.pdf
 76cf70752f25d75f58719e39f3e4f65b *inst/design/variableGraph.pdf
-a179ebf37afbdefc9ff02d9b6edea613 *inst/doc/intro.R
+29d801327f6b5788bb75b0b6b46c2949 *inst/doc/intro.R
 dc693b4bcd6649f8bf56a2ebfc44812a *inst/doc/intro.Rmd
-cbee9f825bfb5873c0d73fb19105baad *inst/doc/intro.html
+011c95552af4c20d9b45c234d2969e8a *inst/doc/intro.html
 62a8f23d1689b89936adaca7f9e8140c *inst/samples/annotatedDual.R
 b2d1486d5a1d520ae166caec65220dd0 *inst/samples/branch.R
 59d5c70c924abb96ca28357036cfd30d *inst/samples/cacherCode/cacher.R
@@ -76,7 +76,7 @@ f49d47c5e94d5fdf4d0eec729c80e13a *inst/unitTests/testcode/inputtest3.R
 a7ee508f72f26a5b7305412351583931 *inst/unitTests/testcode/inputtest5.R
 2dd08dc007ebb61bc707357b30c9b611 *inst/unitTests/tmp.R
 0f60a077cbf28fb9a6b6f78a7763294f *man/Script-class.Rd
-e450c49d4e21f3833fdd9dd88ae3d571 *man/asVarName.Rd
+a30f2ba60a6b7cbca9562139a5ab54b3 *man/asVarName.Rd
 533c54f25a37dd32783dc2aec6abed6f *man/findWhenUnneeded.Rd
 de62dfedbfb0e8d3da3ee71d976f87cb *man/getDependsThread.Rd
 963befd08d7645e7e9f22b56523e5928 *man/getDetailedTimelines.Rd
@@ -88,7 +88,7 @@ a006b8525ce6ba95c433df022dff9ccb *man/getVariableDepends.Rd
 04440acc2289ce3ab0f29668b8d9d814 *man/getVariables.Rd
 902b0bff75bf13602097db55cf9b347b *man/guessTaskType.Rd
 7e3d4d1bd52d11c4ad6ab24feeffb709 *man/handlers.Rd
-bd143eb288d51bdb2215e6d04da8bbca *man/highlightCode.Rd
+13bd815ef21c80635363fc535e21e39a *man/highlightCode.Rd
 690500f2c3a289bb88742f0fd6dfbbe4 *man/historyAsScript.Rd
 042131b75d8a9ff7ca22f6012ccd0974 *man/inputCollector.Rd
 4d46de9ac852ecbac1962cfd78b88718 *man/makeCallGraph.Rd
@@ -98,7 +98,7 @@ a94bd14f334be5c85af60226dbac49ff *man/separateExpressionBlocks.Rd
 ff5ad195ca258408134ca38b22009a82 *man/sourceVariable.Rd
 b7f14dc222c816fbef4a99c0d4f24079 *man/splitRedefinitions.Rd
 2db7a0f0174b97e45e929e8b86303400 *man/toSection.Rd
-6b0a07041294e92eede8c195948a276c *man/updatingScript.Rd
+880da6963fc649dee56372b05559c39b *man/updatingScript.Rd
 0f8d78107879fd9fd23f239ac6ef7559 *tests/draw.R
 0b6d9ea6ad1b6a516722c3288f951109 *tests/inputs.R
 4ee04c2d88e867a18a169b493cdc9e8c *tests/thread.R

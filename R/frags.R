@@ -127,7 +127,7 @@ function(expr)
     expr = expr[[3]]
   }
   
-  while(class(expr) != "{") {
+  while(!inherits(expr, "{")) {
     task = c(task, as.character(expr[[1]]))
     expr = expr[[2]]
   }

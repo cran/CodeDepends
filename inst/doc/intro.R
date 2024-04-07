@@ -1,16 +1,16 @@
-## ----scriptnodeinfo------------------------------------------------------
+## ----scriptnodeinfo-----------------------------------------------------------
 library(CodeDepends)
 getInputs(quote(x <- y + rnorm(10, sd = z)))
 
 
-## ----updateexprs, eval=FALSE---------------------------------------------
+## ----updateexprs, eval=FALSE--------------------------------------------------
 #  x = x + 5
 #  rownames(x) = 5
 #  x[1:3] = 5
 #  x  = lapply(1:5, function(i) x[i]^2)
 #  x$y = 5
 
-## ----custhandler---------------------------------------------------------
+## ----custhandler--------------------------------------------------------------
 
 col = inputCollector(library = function(e, collector, ...) {
     print(paste("Hello", asVarName(e)))
@@ -18,7 +18,7 @@ col = inputCollector(library = function(e, collector, ...) {
 })
 getInputs(quote(library(CodeDepends)), collector = col)
 
-## ----variablegraph-------------------------------------------------------
+## ----variablegraph------------------------------------------------------------
 
  f = system.file("samples", "results-multi.R", package = "CodeDepends")
  sc = readScript(f)
@@ -26,7 +26,7 @@ getInputs(quote(library(CodeDepends)), collector = col)
  if(require(Rgraphviz))
    plot(g)
 
-## ----callgraphs----------------------------------------------------------
+## ----callgraphs---------------------------------------------------------------
   gg = makeCallGraph("package:CodeDepends")
   if(require(Rgraphviz)) {
      gg = layoutGraph(gg, layoutType = "circo")
@@ -34,7 +34,7 @@ getInputs(quote(library(CodeDepends)), collector = col)
      renderGraph(gg) ## could also call plot directly
   } 
 
-## ----timelines-----------------------------------------------------------
+## ----timelines----------------------------------------------------------------
 f = system.file("samples", "results-multi.R", package = "CodeDepends")
 sc = readScript(f)
 dtm = getDetailedTimelines(sc, getInputs(sc))

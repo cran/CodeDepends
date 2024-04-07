@@ -782,7 +782,7 @@ defaultFuncHandlers = list(
     )
 
 isAssignment = function(e) {
-    class(e) %in% c("=", "<-") ||
+    (inherits(e, "=") || inherits(e, "<-")) ||
         (is.call(e) && is.symbol(e[[1]]) && as.character(e[[1]]) == "<<-")
 }
 
